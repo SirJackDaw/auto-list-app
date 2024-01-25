@@ -1,11 +1,14 @@
 {
   "name": "backend-console",
+  "bin": {
+    "auto-list-cli": "./dist/main.js"
+  },
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "start:dev": "npx nodemon",
+    "start:dev": "npx nodemon --pockemon=charmander",
     "build": "rimraf ./dist && npx tsc",
     "start": "npm run build && node dist/main.js",
     "lint": "npx eslint ./src",
@@ -15,6 +18,7 @@
   "license": "ISC",
   "devDependencies": {
     "@types/node": "^20.11.6",
+    "@types/yargs": "^17.0.32",
     "@typescript-eslint/eslint-plugin": "^6.19.1",
     "@typescript-eslint/parser": "^6.19.1",
     "eslint": "^8.56.0",
@@ -24,6 +28,8 @@
     "typescript": "^5.3.3"
   },
   "dependencies": {
-    "prettier": "^3.2.4"
+    "build": "^0.1.4",
+    "prettier": "^3.2.4",
+    "yargs": "^17.7.2"
   }
 }
