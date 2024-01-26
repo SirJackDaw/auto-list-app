@@ -1,0 +1,11 @@
+services:
+  mongo:
+    image: mongo:latest
+    volumes:
+      - 'mongodb_master_data:/bitnami/mongodb'
+    ports:
+      - 27017:27017
+
+volumes:
+  mongodb_master_data:
+    driver: local
