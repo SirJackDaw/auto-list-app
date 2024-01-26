@@ -1,8 +1,8 @@
 import mongoose from "mongoose";
 import { Config } from "../config.js";
 
-async function connect() {
-    const config = Config.getInstance();
+export async function connectMongo() {
+  const config = Config.getInstance();
   const dbUri = config.get("MONGO_URI");
 
   try {
@@ -13,5 +13,3 @@ async function connect() {
     process.exit(1);
   }
 }
-
-export default connect;

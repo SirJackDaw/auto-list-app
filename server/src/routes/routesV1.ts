@@ -1,21 +1,47 @@
-import * as schemas from './../inputs/schemas.js';
-import { Express, Router } from 'express';
-// import { createCarHandler, deleteCarHandler, getAllCarsHandler, getCarByIdHandler, updateCarHandler } from '../controllers/carController.js';
-import * as carController from '../controllers/carController.js';
+import { Router } from 'express';
 import { isAuth } from '../middlewares/authUser.js';
 import { validator } from '../middlewares/validation.js';
+import { schemas } from '../inputs/schemas.js';
+import { CarController } from '../controllers/car-controller.js';
 
-const router = Router();
+//очень хотелось разбить по классам
+export class CarsRouter{
+    private router: Router;
+    private carController: CarController;
+    constructor() {
+        this.carController = new CarController();
+        this.router = this.initRouter()
+    }
 
-export function registerRoutes(): Router {
-    router.post("/v1/cars", isAuth, validator(schemas.createCarSchema),carController.createCarHandler);
-    router.get("/v1/cars", isAuth, carController.getAllCarsHandler);
-    router.get("/v1/cars/:id", isAuth, carController.getCarByIdHandler);
-    router.patch("/v1/cars/:id", isAuth, validator(schemas.updateCarSchema), carController.updateCarHandler);
-    router.delete("/v1/cars/:id", isAuth, carController.deleteCarHandler);
+    private initRouter(): Router {
+        const router = Router();
 
-    return router;
+        router.post("/v1/cars", isAuth, validator(schemas.createCarSchema), async (req, res) => await this.carController.createCarHandler(req, res));
+        router.get("/v1/cars", isAuth, async (req, res) => await this.carController.getAllCarsHandler(req, res));
+        router.get("/v1/cars/:id", isAuth, async (req, res) => this.carController.getCarByIdHandler(req, res));
+        router.patch("/v1/cars/:id", isAuth, validator(schemas.updateCarSchema), async (req, res) => await this.carController.updateCarHandler(req, res));
+        router.delete("/v1/cars/:id", isAuth, async (req, res) => await this.carController.deleteCarHandler(req, res));
+
+        return router
+    }
+
+    getRouter(): Router {
+        return this.router;
+    }
 }
+
+
+// export function registerRoutes(): Router {
+//     const carController = new CarController();
+
+//     router.post("/v1/cars", isAuth, validator(schemas.createCarSchema), () => carController.createCarHandler);
+//     router.get("/v1/cars", isAuth, () => carController.getAllCarsHandler);
+//     router.get("/v1/cars/:id", isAuth, () => carController.getCarByIdHandler);
+//     router.patch("/v1/cars/:id", isAuth, validator(schemas.updateCarSchema), () => carController.updateCarHandler);
+//     router.delete("/v1/cars/:id", isAuth, () => carController.deleteCarHandler);
+
+//     return router;
+// }
 
 // export function registerRoutes(app: Express) {
 //     app.post("/v1/cars", isAuth, carController.createCarHandler);
