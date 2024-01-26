@@ -1,15 +1,14 @@
 import mongoose from "mongoose";
 import CarModel from "./car.model.js";
-import { CreateCarDto } from "../dto/createCar.dto.js";
-import { UpdateCarDto } from "../dto/updateCar.dto.js";
+import { CreateCarInput, UpdateCarInput } from "../inputs/schemas.js";
 
-export function create(dto: CreateCarDto) {
+export function create(dto: CreateCarInput["body"]) {
     const id = new mongoose.Types.ObjectId();
-    CarModel.create({_id: id, ...dto})
+    return CarModel.create({_id: id, ...dto})
 }
-export function update(id: string, dto: UpdateCarDto) {
+export function update(id: string, dto: UpdateCarInput["body"]) {
     const objId = new mongoose.Types.ObjectId(id);
-    CarModel.updateOne({_id: objId}, {})
+    return CarModel.findByIdAndUpdate({_id: objId}, {...dto}, {lean: true})
 }
 export function deleteCar(id: string) {
     const objId = new mongoose.Types.ObjectId(id);

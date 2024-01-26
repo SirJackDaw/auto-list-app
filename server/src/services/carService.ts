@@ -1,12 +1,11 @@
-import { CreateCarDto } from "../dto/createCar.dto.js"
 import * as carRepository from "../database/repository.js"
-import { UpdateCarDto } from "../dto/updateCar.dto.js"
+import { CreateCarInput, UpdateCarInput } from "../inputs/schemas.js"
 
-export function create(dto: CreateCarDto) {
+export function create(dto: CreateCarInput["body"]) {
     return carRepository.create(dto)
 }
 
-export function update(id: string, dto: UpdateCarDto) {
+export function update(id: string, dto: UpdateCarInput["body"]) {
     return carRepository.update(id, dto)
 }
 
