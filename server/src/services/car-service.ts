@@ -1,17 +1,14 @@
-import { CarRepository } from "../database/repository/car-repository.js";
-import { CreateCarInput, UpdateCarInput } from "../inputs/schemas.js";
+import { CreateCarInput, ReadAllCarsInput, UpdateCarInput } from "../inputs/schemas.js";
+import { ICarRepository } from "../interfaces/CarRepository.js";
 
 export class CarService {
-    private carRepository: CarRepository;
-    constructor() {
-        this.carRepository = new CarRepository();
-    }
+    constructor(private readonly carRepository: ICarRepository) {}
 
-    create(dto: CreateCarInput["body"]) {
+    create(dto: CreateCarInput) {
         return this.carRepository.create(dto)
     }
     
-    update(id: string, dto: UpdateCarInput["body"]) {
+    update(id: string, dto: UpdateCarInput) {
         return this.carRepository.update(id, dto)
     }
     
@@ -19,8 +16,8 @@ export class CarService {
         return this.carRepository.deleteCar(id)
     }
     
-    getAll() {
-        return this.carRepository.getAll()
+    getAll(query: ReadAllCarsInput) {
+        return this.carRepository.getAll(query)
     }
     
     getById(id: string) {

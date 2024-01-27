@@ -1,57 +1,34 @@
-import mongoose from "mongoose";
-import CarModel from "../model/car.model.js";
-import { CreateCarInput, UpdateCarInput } from "../../inputs/schemas.js";
+import mongoose, { FilterQuery } from "mongoose";
+import CarModel, { ICar } from "../model/car.model.js";
+import { CreateCarInput, ReadAllCarsInput, UpdateCarInput } from "../../inputs/schemas.js";
+import { ICarRepository } from "../../interfaces/CarRepository.js";
 
-export class CarRepository {
+export class CarRepository implements ICarRepository{
     constructor() {}
 
-    create(dto: CreateCarInput["body"]) {
+    create(dto: CreateCarInput): Promise<ICar> {
         const id = new mongoose.Types.ObjectId();
         return CarModel.create({_id: id, ...dto})
     }
-    update(id: string, dto: UpdateCarInput["body"]) {
+    update(id: string, dto: UpdateCarInput) {
         const objId = new mongoose.Types.ObjectId(id);
         return CarModel.findByIdAndUpdate({_id: objId}, {...dto}, {lean: true})
     }
     deleteCar(id: string) {
         const objId = new mongoose.Types.ObjectId(id);
-        return CarModel.deleteOne({_id: objId})
+        CarModel.deleteOne({_id: objId})
     }
-    getAll() {
-        return CarModel.find({})
+    getAll(query: ReadAllCarsInput): Promise<ICar[]>{
+        let filterOptions: FilterQuery<ICar> = {}
+
+        if (typeof query.brand != "undefined") { filterOptions.brand = new RegExp(query.brand, 'i')}
+        if (typeof query.name != "undefined") { filterOptions.name = new RegExp(query.name, 'i') }
+        if (typeof query.price != "undefined") { filterOptions.price = query.price }
+
+        return CarModel.find(filterOptions)
     }
-    getById(id: string) {
+    getById(id: string)/* : Promise<ICar> */{
         const objId = new mongoose.Types.ObjectId(id);
-        return CarModel.findById({_id: objId})
+        return CarModel.findById({_id: objId}).exec()
     }
 }
-
-// export function create(dto: CreateCarInput["body"]) {
-//     const id = new mongoose.Types.ObjectId();
-//     return CarModel.create({_id: id, ...dto})
-// }
-// export function update(id: string, dto: UpdateCarInput["body"]) {
-//     const objId = new mongoose.Types.ObjectId(id);
-//     return CarModel.findByIdAndUpdate({_id: objId}, {...dto}, {lean: true})
-// }
-// export function deleteCar(id: string) {
-//     const objId = new mongoose.Types.ObjectId(id);
-//     return CarModel.deleteOne({_id: objId})
-// }
-
-// export async function getAll() {
-//     return CarModel.find({})
-// }
-
-// export async function getById(id: string) {
-//     const objId = new mongoose.Types.ObjectId(id);
-//     return CarModel.findById({_id: objId})
-// }
-
-// export const carRepository = {
-//     create,
-//     update,
-//     deleteCar,
-//     getAll,
-//     getById
-// }

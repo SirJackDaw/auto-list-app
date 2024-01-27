@@ -2,7 +2,9 @@ import { Express } from "express";
 import bodyParser from 'body-parser';
 import cors from 'cors';
 import compression from 'compression';
-import { CarsRouter } from "./routes/routesV1.js";
+import { CarController } from "./controllers/car-controller.js";
+import { CarRepository } from "./database/repository/car-repository.js";
+import { CarService } from "./services/car-service.js";
 
 export function generateApp (app: Express) {
     app.use(cors({ credentials: true }));
@@ -10,6 +12,7 @@ export function generateApp (app: Express) {
     app.use(bodyParser.json());
     app.use((req, res, next) => { res.setTimeout(5000); next() });
 
-    const carRouter = new CarsRouter()
-    app.use('/', carRouter.getRouter());
+    const carService = new CarService(new CarRepository())
+    const carController = new CarController(carService)
+    app.use('/', carController.getRoutes());
 }
