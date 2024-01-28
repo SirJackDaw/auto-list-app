@@ -1,14 +1,14 @@
 {
   "name": "backend-console",
   "bin": {
-    "auto-list-cli": "./dist/main.js"
+    "auto-list-cli": ".client/dist/main.js"
   },
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "start:dev": "npx nodemon --pockemon=charmander",
+    "start:dev": "npx nodemon",
     "build": "rimraf ./dist && npx tsc",
     "start": "npm run build && node dist/main.js",
     "lint": "npx eslint ./src",
@@ -28,6 +28,7 @@
     "typescript": "^5.3.3"
   },
   "dependencies": {
+    "dotenv": "^16.4.1",
     "prettier": "^3.2.4",
     "yargs": "^17.7.2"
   }
