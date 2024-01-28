@@ -1,10 +1,11 @@
+import { ICar } from "../database/model/car.model.js";
 import { CreateCarInput, ReadAllCarsInput, UpdateCarInput } from "../inputs/schemas.js";
 import { ICarRepository } from "../interfaces/CarRepository.js";
 
 export class CarService {
     constructor(private readonly carRepository: ICarRepository) {}
 
-    create(dto: CreateCarInput) {
+    create(dto: CreateCarInput): Promise<ICar> {
         return this.carRepository.create(dto)
     }
     
@@ -12,7 +13,7 @@ export class CarService {
         return this.carRepository.update(id, dto)
     }
     
-    deleteCar(id: string) {
+    deleteCar(id: string): void {
         return this.carRepository.deleteCar(id)
     }
     
