@@ -1,7 +1,21 @@
-Комментарии: Я начинал писать, стараясь разбрасывать всё по классам, чтобы удовлетворять SOLID. Так как я пишу на Nest, этот подход казался мне логичным. Но потом я посмотрел в интернете и понял, что на обычной ноде так никто не пишет и все просто импортируют функции, решил сделать так, как везде
+**Start**
+docker-compose up --build -V
 
-create -b=Tesla -n=model1 -p=12 -y=14 -u=Ilon -q=mask
-byId --id=65b67880aec6a9c1b9688015 -u=Ilon -q=mask
-all -u=Ilon -q=mask -b=Tesla
-update -n=cybertruck -u=Ilon -q=mask --id=65b66e76aec6a9c1b968800f
-delete --id=65b67880aec6a9c1b9688015 -u=Ilon -q=mask
+***then go to the client foulder and:***
+
+**Create car**
+npx tsx ./src/main.ts create -b=Tesla -n=model1 -p=12 -y=14 -u=Ilon -q=mask
+
+**Get car by id**
+npx tsx ./src/main.ts byId --id=65b75fdc30a6ec236585dabb -u=Ilon -q=mask
+
+**Get cars**
+***you can use flags from creation***
+npx tsx ./src/main.ts all -u=Ilon -q=mask -b=Tesla
+
+**Update car**
+***you can use flags from creation***
+npx tsx ./src/main.ts update -n=cybertruck -u=Ilon -q=mask --id=65b66e76aec6a9c1b968800f
+
+**Delete car by id**
+npx tsx ./src/main.ts delete -u=Ilon -q=mask --id=65b75fdc30a6ec236585dabb

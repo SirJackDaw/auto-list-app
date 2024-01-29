@@ -2,11 +2,11 @@ FROM node:alpine As development
 
 WORKDIR /usr/src/app
 
-COPY package*.json ./
+COPY ./server/package*.json ./
 
 RUN npm install
 
-COPY . .
+COPY ./server .
 
 RUN npm run build
 

@@ -1,4 +1,21 @@
 services:
+  app:
+    build: 
+      context: .
+      dockerfile: ./server/Dockerfile
+      target: development
+    command: npx tsx ./src/main.ts
+    env_file:
+      - ./server/.env
+    depends_on:
+      - mongo
+    volumes:
+      - ./server:/usr/src/app
+      - /usr/src/app/node_modules
+    ports:
+      - 3000:3000
+
+
   mongo:
     image: mongo:latest
     volumes:

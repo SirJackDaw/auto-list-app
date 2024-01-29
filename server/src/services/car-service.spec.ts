@@ -1,4 +1,4 @@
-import { CarService } from './car-service.js';
+import { CarService } from "src/services/car-service.js";
 
 describe('CarService', () => {
     const mockCarRepository = {
